@@ -13,7 +13,7 @@ public class Reminder {
     private int intervalDays;
     @ColumnInfo(name = "interval_hours")
     private int intervalHours;
-    @ColumnInfo(name = "Interval_minutes")
+    @ColumnInfo(name = "interval_minutes")
     private int intervalMinutes;
     @ColumnInfo(name = "start_hour")
     private int startHour;

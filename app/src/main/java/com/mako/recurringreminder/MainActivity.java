@@ -7,6 +7,8 @@ import androidx.room.Room;
 
 import android.os.Bundle;
 
+import com.mako.recurringreminder.databasemodel.Reminder;
+import com.mako.recurringreminder.databasemodel.ReminderDao;
 import com.mako.recurringreminder.databasemodel.ReminderDatabase;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         ReminderDatabase db = Room.databaseBuilder(getApplicationContext(), ReminderDatabase.class, "RemindersDb").build();
+        ReminderDao reminderDao = db.reminderDao();
+        db.close();
         // mAdapter = new RemindersAdapter(remindersDataset);
         // recyclerView.setAdapter(mAdapter);
     }
