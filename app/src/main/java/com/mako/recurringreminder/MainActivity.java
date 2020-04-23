@@ -1,19 +1,19 @@
 package com.mako.recurringreminder;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.mako.recurringreminder.databasemodel.Reminder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mako.recurringreminder.databasemodel.ReminderDao;
 import com.mako.recurringreminder.databasemodel.ReminderDatabase;
+
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -23,11 +23,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // set fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
+        fragmentTransaction.add(R.id.fragment, recyclerViewFragment);
+        fragmentTransaction.commit();
+
         setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.MainRecyclerView);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        // button
+        FloatingActionButton fab = findViewById(R.id.add_floating_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToOtherFragment(v);
+            }
+        });
         ReminderDatabase db = Room.databaseBuilder(getApplicationContext(), ReminderDatabase.class, "RemindersDb").build();
         ReminderDao reminderDao = db.reminderDao();
         db.close();
@@ -35,13 +46,14 @@ public class MainActivity extends AppCompatActivity {
         // recyclerView.setAdapter(mAdapter);
     }
 
-    public class ListFragment extends Fragment{
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
-            return inflater.inflate(R.layout.activity_main, container, false);
-        }
+    void switchToOtherFragment(View view) {
+        AddReminder newFragment = new AddReminder();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment, newFragment);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     }
-
 }

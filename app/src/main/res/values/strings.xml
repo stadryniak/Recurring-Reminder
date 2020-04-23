@@ -2,4 +2,6 @@
     <string name="app_name">Recurring Reminder</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
