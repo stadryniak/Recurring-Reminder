@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AddReminder#newInstance} factory method to
+ * Use the {@link AddReminderFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddReminder extends Fragment {
+public class AddReminderFragment extends Fragment {
 
-    public AddReminder() {
+    public AddReminderFragment() {
         // Required empty public constructor
     }
 
@@ -26,8 +26,8 @@ public class AddReminder extends Fragment {
      *
      * @return A new instance of fragment add_reminder.
      */
-    private static AddReminder newInstance() {
-        return new AddReminder();
+    private static AddReminderFragment newInstance() {
+        return new AddReminderFragment();
     }
 
     @Override

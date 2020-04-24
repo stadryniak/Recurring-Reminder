@@ -2,7 +2,6 @@ package com.mako.recurringreminder;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -47,13 +46,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void switchToOtherFragment(View view) {
-        AddReminder newFragment = new AddReminder();
+        // check if add fragment is already here. if so, abort
+        AddReminderFragment oldFragment = (AddReminderFragment) getSupportFragmentManager().findFragmentByTag("ADD_FRAGMENT");
+        if (oldFragment != null && oldFragment.isVisible())
+            return;
+
+        AddReminderFragment newFragment = new AddReminderFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment, newFragment);
+        transaction.replace(R.id.fragment, newFragment, "ADD_FRAGMENT");
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
+        FloatingActionButton fab = findViewById(R.id.add_floating_button);
     }
 }
