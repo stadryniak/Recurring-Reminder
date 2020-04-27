@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1714e707ecfa2962686c5f7289806920",
+    "identityHash": "582587209cf8d328fe3d591c1b0966d8",
     "entities": [
       {
         "tableName": "Reminder",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `interval_days` INTEGER NOT NULL, `interval_hours` INTEGER NOT NULL, `interval_minutes` INTEGER NOT NULL, `start_hour` INTEGER NOT NULL, `start_minute` INTEGER NOT NULL, `message` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `interval_days` INTEGER NOT NULL, `interval_hours` INTEGER NOT NULL, `interval_minutes` INTEGER NOT NULL, `start_hour` INTEGER NOT NULL, `start_minute` INTEGER NOT NULL, `message` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -55,7 +55,7 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -64,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1714e707ecfa2962686c5f7289806920')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '582587209cf8d328fe3d591c1b0966d8')"
     ]
   }
 }

@@ -6,8 +6,9 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Reminder {
-    @PrimaryKey
+public
+class Reminder {
+    @PrimaryKey(autoGenerate = true)
     public int id;
     @ColumnInfo(name = "interval_days")
     private int intervalDays;
@@ -22,7 +23,7 @@ public class Reminder {
     @ColumnInfo(name = "message")
     private String message;
 
-    Reminder(int startHour, int startMinute, int intervalDays, int intervalHours, int intervalMinutes, String message) {
+    public Reminder(int startHour, int startMinute, int intervalDays, int intervalHours, int intervalMinutes, String message) {
         // check inputs
         if ((startHour > 23 || startHour < 0) || (startMinute > 59 || startMinute < 0))
             throw new IllegalArgumentException("Invalid start time");
@@ -62,7 +63,7 @@ public class Reminder {
         return intervalHours;
     }
 
-    public void setIntervalHours(int hours) {
+    void setIntervalHours(int hours) {
         if (hours > 23 || hours < 0)
             throw new IllegalArgumentException("Hours must be in 0-23 range");
         this.intervalHours = hours;
@@ -72,7 +73,7 @@ public class Reminder {
         return intervalMinutes;
     }
 
-    public void setIntervalMinutes(int minutes) {
+    void setIntervalMinutes(int minutes) {
         if (minutes > 59 || minutes < 0)
             throw new IllegalArgumentException("Minutes must be in 0-59 range");
         this.intervalMinutes = minutes;
@@ -82,7 +83,11 @@ public class Reminder {
         return message;
     }
 
-    public void setMessage(String message) {
+    void setMessage(String message) {
         this.message = message;
+    }
+
+    public int getMilisec() {
+        return ((this.intervalMinutes * 60) + (this.intervalHours * 3600) + (this.intervalDays * 24 * 3600)) * 1000;
     }
 }
