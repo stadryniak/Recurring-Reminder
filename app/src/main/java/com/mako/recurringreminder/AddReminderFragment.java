@@ -1,24 +1,17 @@
 package com.mako.recurringreminder;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.provider.SyncStateContract;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -32,7 +25,8 @@ public class AddReminderFragment extends Fragment {
 
     private int startHour;
     private int startMinute;
-    private int DIALOG_REQUEST_CODE = 71;
+    private int TIME_PICKER_DIALOG_REQUEST_CODE = 71;
+    private int NUMBER_PICKER_DIALOG_REQUEST_CODE = 75;
 
     public AddReminderFragment() {
         // Required empty public constructor
@@ -57,6 +51,8 @@ public class AddReminderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_reminder, container, false);
+        // set buttons
+        // start time set
         TextView currentStartTime = view.findViewById(R.id.currentStartTime);
         currentStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,13 +60,28 @@ public class AddReminderFragment extends Fragment {
                 showTimePickerDialog(v);
             }
         });
+        // interval days set
+        TextView intervalDays = view.findViewById(R.id.currentDays);
+        intervalDays.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumberPickerDialog(v);
+            }
+        });
         return view;
+    }
+
+    private void showNumberPickerDialog(View v) {
+        NumberPickerFragment pickerFragment = new NumberPickerFragment();
+        pickerFragment.setTargetFragment(this, this.NUMBER_PICKER_DIALOG_REQUEST_CODE);
+        assert getFragmentManager() != null;
+        pickerFragment.show(getFragmentManager(), "numberPicker");
     }
 
     private void showTimePickerDialog(View v) {
         DialogFragment pickerFragment = new TimePickerFragment();
         assert getFragmentManager() != null;
-        pickerFragment.setTargetFragment(this, this.DIALOG_REQUEST_CODE);
+        pickerFragment.setTargetFragment(this, this.TIME_PICKER_DIALOG_REQUEST_CODE);
         pickerFragment.show(getFragmentManager(), "timePicker");
     }
 
@@ -85,7 +96,7 @@ public class AddReminderFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == this.DIALOG_REQUEST_CODE) {
+        if (requestCode == this.TIME_PICKER_DIALOG_REQUEST_CODE) {
 
             if (resultCode == Activity.RESULT_OK) {
 

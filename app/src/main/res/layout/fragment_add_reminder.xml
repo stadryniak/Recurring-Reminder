@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/startTimeText"
+            android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -24,11 +25,84 @@
             android:id="@+id/currentStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
+            android:background="#03A9F4"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:text="@string/startTimeDisplay"
+            android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/startTimeText" />
+
+        <TextView
+            android:id="@+id/intervalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/intervalText"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/currentStartTime" />
+
+        <TextView
+            android:id="@+id/daysText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/daysText"
+            app:layout_constraintEnd_toStartOf="@+id/currentDays"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/intervalText" />
+
+        <TextView
+            android:id="@+id/hoursText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/hoursText"
+            app:layout_constraintEnd_toStartOf="@+id/currentHours"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/daysText" />
+
+        <TextView
+            android:id="@+id/minutesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/minutesText"
+            app:layout_constraintEnd_toStartOf="@+id/currentMinutes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hoursText" />
+
+        <TextView
+            android:id="@+id/currentDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero"
+            app:layout_constraintBottom_toBottomOf="@+id/daysText"
+            app:layout_constraintEnd_toEndOf="@+id/currentHours"
+            app:layout_constraintTop_toTopOf="@+id/daysText" />
+
+        <TextView
+            android:id="@+id/currentHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero"
+            app:layout_constraintBottom_toBottomOf="@+id/hoursText"
+            app:layout_constraintEnd_toEndOf="@+id/currentMinutes"
+            app:layout_constraintTop_toTopOf="@+id/hoursText" />
+
+        <TextView
+            android:id="@+id/currentMinutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zero"
+            app:layout_constraintBottom_toBottomOf="@+id/minutesText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/minutesText"
+            app:layout_constraintTop_toTopOf="@+id/minutesText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
