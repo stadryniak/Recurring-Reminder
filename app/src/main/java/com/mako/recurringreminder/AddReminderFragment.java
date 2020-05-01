@@ -25,6 +25,10 @@ public class AddReminderFragment extends Fragment {
 
     private int startHour;
     private int startMinute;
+    private int intervalDay;
+    private int intervalHour;
+    private int intervalMinute;
+
     private int TIME_PICKER_DIALOG_REQUEST_CODE = 71;
     private int NUMBER_PICKER_DIALOG_REQUEST_CODE = 75;
 
@@ -60,19 +64,33 @@ public class AddReminderFragment extends Fragment {
                 showTimePickerDialog(v);
             }
         });
-        // interval days set
-        TextView intervalDays = view.findViewById(R.id.currentDays);
-        intervalDays.setOnClickListener(new View.OnClickListener() {
+        // intervals set onclick
+        TextView intervalText = view.findViewById(R.id.currentDays);
+        intervalText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showNumberPickerDialog(v);
+                showNumberPickerDialog(v, 0);
+            }
+        });
+        intervalText = view.findViewById(R.id.currentHours);
+        intervalText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumberPickerDialog(v, 1);
+            }
+        });
+        intervalText = view.findViewById(R.id.currentMinutes);
+        intervalText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumberPickerDialog(v, 2);
             }
         });
         return view;
     }
 
-    private void showNumberPickerDialog(View v) {
-        NumberPickerFragment pickerFragment = new NumberPickerFragment();
+    private void showNumberPickerDialog(View v, int requestId) {
+        NumberPickerFragment pickerFragment = NumberPickerFragment.newInstance(requestId);
         pickerFragment.setTargetFragment(this, this.NUMBER_PICKER_DIALOG_REQUEST_CODE);
         assert getFragmentManager() != null;
         pickerFragment.show(getFragmentManager(), "numberPicker");
@@ -92,6 +110,17 @@ public class AddReminderFragment extends Fragment {
         text.setText(String.format(Locale.getDefault(), "%d:%d", this.startHour, this.startMinute));
     }
 
+    private void setIntervalTexts() {
+        View view = getView();
+        if (view == null) return;
+        TextView textView = view.findViewById(R.id.currentDays);
+        textView.setText(String.valueOf(this.intervalDay));
+        textView = view.findViewById(R.id.currentHours);
+        textView.setText(String.valueOf(this.intervalHour));
+        textView = view.findViewById(R.id.currentMinutes);
+        textView.setText(String.valueOf(this.intervalMinute));
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -100,11 +129,30 @@ public class AddReminderFragment extends Fragment {
 
             if (resultCode == Activity.RESULT_OK) {
 
-                if (Objects.requireNonNull(data.getExtras()).containsKey("hours") ||
+                if (Objects.requireNonNull(data.getExtras()).containsKey("hours") &&
                         Objects.requireNonNull(data.getExtras()).containsKey("minutes")) {
                     this.startHour = data.getExtras().getInt("hours");
                     this.startMinute = data.getExtras().getInt("minutes");
                     setStartTimeText();
+                }
+            }
+        } else if (requestCode == this.NUMBER_PICKER_DIALOG_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (Objects.requireNonNull(data.getExtras()).containsKey("number") &&
+                        data.getExtras().containsKey("requestId")) {
+                    int interval = data.getExtras().getInt("number");
+                    switch (data.getExtras().getInt("requestId")) {
+                        case 0:
+                            this.intervalDay = interval;
+                            break;
+                        case 1:
+                            this.intervalHour = interval;
+                            break;
+                        case 2:
+                            this.intervalMinute = interval;
+                            break;
+                    }
+                    setIntervalTexts();
                 }
             }
         }

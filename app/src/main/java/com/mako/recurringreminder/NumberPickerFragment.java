@@ -21,11 +21,14 @@ import java.util.Objects;
 
 public class NumberPickerFragment extends DialogFragment {
     private int currentValue;
+    private int requestId;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final NumberPicker numberPicker = new NumberPicker(getActivity());
+        assert getArguments() != null;
+        this.requestId = getArguments().getInt("requestId");
 
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(100);
@@ -43,7 +46,7 @@ public class NumberPickerFragment extends DialogFragment {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                returnValue(dialog, which);
+                returnValue();
             }
         });
 
@@ -56,9 +59,22 @@ public class NumberPickerFragment extends DialogFragment {
         return builder.create();
     }
 
-    private void returnValue(DialogInterface dialog, int which) {
-        Toast toast = Toast.makeText(getContext(), "Current val " + this.currentValue, Toast.LENGTH_LONG);
-        toast.show();
+    static NumberPickerFragment newInstance(int requestId) {
+        NumberPickerFragment f = new NumberPickerFragment();
+        // Supply num input as an argument.
+        Bundle args = new Bundle();
+        args.putInt("requestId", requestId);
+        f.setArguments(args);
+        return f;
+    }
+
+    private void returnValue() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("number", this.currentValue);
+        bundle.putInt("requestId", this.requestId);
+        Intent intent = new Intent().putExtras(bundle);
+        Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+        dismiss();
     }
 
     private void changeVal(NumberPicker picker, int oldVal, int newVal) {

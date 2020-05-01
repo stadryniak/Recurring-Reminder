@@ -16,6 +16,8 @@ import java.util.Objects;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
+    int destination;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
