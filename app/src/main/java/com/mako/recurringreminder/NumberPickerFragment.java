@@ -61,7 +61,6 @@ public class NumberPickerFragment extends DialogFragment {
 
     static NumberPickerFragment newInstance(int requestId) {
         NumberPickerFragment f = new NumberPickerFragment();
-        // Supply num input as an argument.
         Bundle args = new Bundle();
         args.putInt("requestId", requestId);
         f.setArguments(args);

@@ -107,7 +107,7 @@ public class AddReminderFragment extends Fragment {
         View view = getView();
         if (view == null) return;
         TextView text = view.findViewById(R.id.currentStartTime);
-        text.setText(String.format(Locale.getDefault(), "%d:%d", this.startHour, this.startMinute));
+        text.setText(String.format(Locale.getDefault(), "%02d:%02d", this.startHour, this.startMinute));
     }
 
     private void setIntervalTexts() {
