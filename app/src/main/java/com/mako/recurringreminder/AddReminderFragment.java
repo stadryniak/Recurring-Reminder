@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
 import android.view.LayoutInflater;
@@ -31,7 +33,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class AddReminderFragment extends Fragment {
-
+    private ReminderViewModel mReminderViewModel;
     private int startHour;
     private int startMinute;
     private int intervalDay;
@@ -80,6 +82,8 @@ public class AddReminderFragment extends Fragment {
         Button addButton = view.findViewById(R.id.addToDbButton);
         addButton.setOnClickListener(this::addToDb);
 
+        mReminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
+        mReminderViewModel.setLiveData(Objects.requireNonNull(getActivity()).getApplication());
         return view;
     }
 
@@ -89,9 +93,14 @@ public class AddReminderFragment extends Fragment {
         EditText editText = view.findViewById(R.id.messageInput);
         String message = editText.getText().toString();
         Reminder reminder = new Reminder(this.startHour, this.startMinute, this.intervalDay, this.intervalHour, this.intervalMinute, message);
-        ReminderDatabase db = Room.databaseBuilder(Objects.requireNonNull(getActivity()), ReminderDatabase.class, "RemindersDb").build();
-        db.reminderDao().insertAll(reminder);
-        db.close();
+        mReminderViewModel.insert(reminder);
+        goBack();
+    }
+
+    private void goBack() {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager != null)
+            fragmentManager.popBackStack();
     }
 
     private void showNumberPickerDialog(View v, int requestId) {

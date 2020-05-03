@@ -3,10 +3,15 @@ package com.mako.recurringreminder;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Objects;
 
 
 /**
@@ -15,6 +20,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class RecyclerViewFragment extends Fragment {
+    private ReminderViewModel mReminderViewModel;
 
     public RecyclerViewFragment() {
         // Required empty public constructor
@@ -33,12 +39,22 @@ public class RecyclerViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.MainRecyclerView);
+        final ReminderListAdapter adapter = new ReminderListAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mReminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
+        mReminderViewModel.setLiveData(Objects.requireNonNull(getActivity()).getApplication());
+        // Update the cached copy of the words in the adapter.
+        mReminderViewModel.getAllReminders().observe(this, adapter::setWords);
+        return view;
     }
 }

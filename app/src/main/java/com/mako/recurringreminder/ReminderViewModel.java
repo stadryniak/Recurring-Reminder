@@ -2,29 +2,34 @@ package com.mako.recurringreminder;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.mako.recurringreminder.databasemodel.Reminder;
 import com.mako.recurringreminder.databasemodel.ReminderRepository;
 
 import java.util.List;
 
-public class ReminderViewModel extends AndroidViewModel {
+class ReminderViewModel extends ViewModel {
     private ReminderRepository mRepository;
-    private LiveData<List<Reminder>> mAllWords;
+    private LiveData<List<Reminder>> mAllReminders;
 
-    public ReminderViewModel(Application application) {
-        super(application);
+    void setLiveData(Application application) {
+        if(mRepository!=null) return;
         mRepository = new ReminderRepository(application);
-        mAllWords = mRepository.getAllReminders();
+        mAllReminders = mRepository.getAllReminders();
     }
 
-    LiveData<List<Reminder>> getAllWords() {
-        return mAllWords;
+    LiveData<List<Reminder>> getAllReminders() {
+        return mAllReminders;
     }
 
-    public void insert(Reminder reminder) {
+    void insert(Reminder reminder) {
         mRepository.insert(reminder);
     }
 }

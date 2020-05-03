@@ -1,28 +1,18 @@
 package com.mako.recurringreminder;
 
+
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mako.recurringreminder.databasemodel.Reminder;
-import com.mako.recurringreminder.databasemodel.ReminderDao;
-import com.mako.recurringreminder.databasemodel.ReminderDatabase;
-
-import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private ReminderViewModel mReminderViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +28,9 @@ public class MainActivity extends AppCompatActivity {
         // button
         FloatingActionButton fab = findViewById(R.id.add_floating_button);
         fab.setOnClickListener(this::switchToOtherFragment);
-       // ReminderDatabase db =  ReminderDatabase.getDatabase(this);
-       // db.close();
-        // mAdapter = new RemindersAdapter(remindersDataset);
-        // recyclerView.setAdapter(mAdapter);
+       // mReminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
+        mReminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
+        mReminderViewModel.setLiveData(getApplication());
     }
 
     void switchToOtherFragment(View view) {

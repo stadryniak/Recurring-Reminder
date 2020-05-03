@@ -81,7 +81,7 @@ class Reminder {
     }
 
     @NonNull
-    String getMessage() {
+    public String getMessage() {
         return message;
     }
 
