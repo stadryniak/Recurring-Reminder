@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         // set fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
-        fragmentTransaction.add(R.id.fragment, recyclerViewFragment);
+        RecyclerViewFragment fragment = new RecyclerViewFragment();
+        fragmentTransaction.add(R.id.frame, fragment);
         fragmentTransaction.commit();
 
         setContentView(R.layout.activity_main);
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment, newFragment, "ADD_FRAGMENT");
+        transaction.replace(R.id.frame, newFragment, "ADD_FRAGMENT");
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
