@@ -1,16 +1,25 @@
 package com.mako.recurringreminder;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.mako.recurringreminder.databasemodel.Reminder;
+import com.mako.recurringreminder.databasemodel.ReminderDao;
+import com.mako.recurringreminder.databasemodel.ReminderDatabase;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -36,6 +45,7 @@ public class AddReminderFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -58,35 +68,30 @@ public class AddReminderFragment extends Fragment {
         // set buttons
         // start time set
         TextView currentStartTime = view.findViewById(R.id.currentStartTime);
-        currentStartTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(v);
-            }
-        });
+        currentStartTime.setOnClickListener(this::showTimePickerDialog);
         // intervals set onclick
         TextView intervalText = view.findViewById(R.id.currentDays);
-        intervalText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showNumberPickerDialog(v, 0);
-            }
-        });
+        intervalText.setOnClickListener(v -> showNumberPickerDialog(v, 0));
         intervalText = view.findViewById(R.id.currentHours);
-        intervalText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showNumberPickerDialog(v, 1);
-            }
-        });
+        intervalText.setOnClickListener(v -> showNumberPickerDialog(v, 1));
         intervalText = view.findViewById(R.id.currentMinutes);
-        intervalText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showNumberPickerDialog(v, 2);
-            }
-        });
+        intervalText.setOnClickListener(v -> showNumberPickerDialog(v, 2));
+
+        Button addButton = view.findViewById(R.id.addToDbButton);
+        addButton.setOnClickListener(this::addToDb);
+
         return view;
+    }
+
+    private void addToDb(View v) {
+        View view = getView();
+        assert view != null;
+        EditText editText = view.findViewById(R.id.messageInput);
+        String message = editText.getText().toString();
+        Reminder reminder = new Reminder(this.startHour, this.startMinute, this.intervalDay, this.intervalHour, this.intervalMinute, message);
+        ReminderDatabase db = Room.databaseBuilder(Objects.requireNonNull(getActivity()), ReminderDatabase.class, "RemindersDb").build();
+        db.reminderDao().insertAll(reminder);
+        db.close();
     }
 
     private void showNumberPickerDialog(View v, int requestId) {

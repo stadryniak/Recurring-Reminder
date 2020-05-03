@@ -1,11 +1,12 @@
 package com.mako.recurringreminder.databasemodel;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "reminder_table")
 public
 class Reminder {
     @PrimaryKey(autoGenerate = true)
@@ -20,16 +21,16 @@ class Reminder {
     private int startHour;
     @ColumnInfo(name = "start_minute")
     private int startMinute;
+    @NonNull
     @ColumnInfo(name = "message")
     private String message;
 
-    public Reminder(int startHour, int startMinute, int intervalDays, int intervalHours, int intervalMinutes, String message) {
+    public Reminder(int startHour, int startMinute, int intervalDays, int intervalHours, int intervalMinutes, @NonNull String message) {
         // check inputs
         if ((startHour > 23 || startHour < 0) || (startMinute > 59 || startMinute < 0))
             throw new IllegalArgumentException("Invalid start time");
         if ((intervalDays < 0 || intervalHours < 0 || intervalMinutes < 0) || (intervalDays == 0 && intervalHours == 0 && intervalMinutes == 0))
             throw new IllegalArgumentException("Invalid interval");
-        if (message == null) throw new NullPointerException("Message is null");
         message = message.trim();
         if (message.isEmpty()) throw new IllegalArgumentException("Message is empty");
         // set fields
@@ -79,11 +80,12 @@ class Reminder {
         this.intervalMinutes = minutes;
     }
 
+    @NonNull
     String getMessage() {
         return message;
     }
 
-    void setMessage(String message) {
+    void setMessage(@NonNull String message) {
         this.message = message;
     }
 

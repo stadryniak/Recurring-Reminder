@@ -10,4 +10,7 @@
     <string name="hoursText">Hours</string>
     <string name="minutesText">Minutes</string>
     <string name="zero">0</string>
+    <string name="messageText">Message</string>
+    <string name="messageHint">Your text here</string>
+    <string name="addToDbButton">Add</string>
 </resources>
