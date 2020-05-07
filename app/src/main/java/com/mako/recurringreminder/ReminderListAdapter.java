@@ -16,18 +16,22 @@ import java.util.List;
 public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapter.ReminderViewHolder> {
 
     class ReminderViewHolder extends RecyclerView.ViewHolder {
-        private final TextView reminderItemView;
+        private final TextView reminderItemMessage;
+        private final TextView itemMinutes;
 
         private ReminderViewHolder(View itemView) {
             super(itemView);
-            reminderItemView = itemView.findViewById(R.id.message);
+            reminderItemMessage = itemView.findViewById(R.id.message);
+            itemMinutes = itemView.findViewById(R.id.minutes);
         }
     }
 
     private final LayoutInflater mInflater;
     private List<Reminder> mReminders; // Cached copy of words
 
-    ReminderListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
+    ReminderListAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
+    }
 
     @NonNull
     @Override
@@ -40,12 +44,13 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
     public void onBindViewHolder(@NonNull ReminderViewHolder holder, int position) {
         if (mReminders != null) {
             Reminder current = mReminders.get(position);
-            holder.reminderItemView.setText(current.getMessage());
+            holder.reminderItemMessage.setText(current.getMessage());
+            holder.itemMinutes.setText(String.valueOf(current.getIntervalMinutes()));
             //holder.ReminderItemView.setText(current.getWord());
         }
     }
 
-    void setWords(List<Reminder> words){
+    void setWords(List<Reminder> words) {
         mReminders = words;
         notifyDataSetChanged();
     }

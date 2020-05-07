@@ -42,11 +42,11 @@ class Reminder {
         this.message = message;
     }
 
-    int getStartHour() {
+    public int getStartHour() {
         return startHour;
     }
 
-    int getStartMinute() {
+    public int getStartMinute() {
         return startMinute;
     }
 
@@ -70,7 +70,7 @@ class Reminder {
         this.intervalHours = hours;
     }
 
-    int getIntervalMinutes() {
+    public int getIntervalMinutes() {
         return intervalMinutes;
     }
 

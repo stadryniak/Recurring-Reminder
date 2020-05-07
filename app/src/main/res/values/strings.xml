@@ -13,4 +13,7 @@
     <string name="messageText">Message</string>
     <string name="messageHint">Your text here</string>
     <string name="addToDbButton">Add</string>
+    <string name="channel_name">ReminderNotificationChannel</string>
+    <string name="channel_description">channel for reminders notifications</string>
+    <string name="minutes">-1</string>
 </resources>

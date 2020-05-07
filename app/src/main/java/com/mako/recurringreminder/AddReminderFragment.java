@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mako.recurringreminder.databasemodel.Reminder;
 import com.mako.recurringreminder.databasemodel.ReminderDao;
@@ -92,8 +93,22 @@ public class AddReminderFragment extends Fragment {
         assert view != null;
         EditText editText = view.findViewById(R.id.messageInput);
         String message = editText.getText().toString();
+        if (message.isEmpty()) {
+            Toast toast = Toast.makeText(getContext(), "Message cannot be empty", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+        if (this.intervalDay == 0 && this.intervalHour == 0 && this.intervalMinute == 0) {
+            Toast toast = Toast.makeText(getContext(), "Interval cannot be 0", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
         Reminder reminder = new Reminder(this.startHour, this.startMinute, this.intervalDay, this.intervalHour, this.intervalMinute, message);
         mReminderViewModel.insert(reminder);
+        // set reminder notification
+        ReminderNotificationManager notificationManager = new ReminderNotificationManager(getContext(), reminder);
+        notificationManager.setRepeatingNotification();
+
         goBack();
     }
 
