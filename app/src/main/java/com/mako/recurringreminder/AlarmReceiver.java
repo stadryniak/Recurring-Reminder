@@ -11,11 +11,18 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.room.Dao;
 
+import com.mako.recurringreminder.databasemodel.Reminder;
+import com.mako.recurringreminder.databasemodel.ReminderDatabase;
+import com.mako.recurringreminder.databasemodel.ReminderRepository;
+
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AlarmReceiver extends BroadcastReceiver {
     private static final String CHANNEL_ID = "REMINDER_NOTIFICATION_CHANNEL_ID";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent == null) {
@@ -23,24 +30,21 @@ public class AlarmReceiver extends BroadcastReceiver {
             return;
         }
         createNotificationChannel(context);
-        if (intent.hasExtra("message")) {
+        if (intent.hasExtra("message") && intent.hasExtra("id")) {
+            int id = intent.getIntExtra("id", -1);
+            if (id == -1) {
+                errorToast(context, "Error getting id");
+                return;
+            }
             String message = intent.getStringExtra("message");
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_launcher_background)
-                    .setContentTitle("REMINDER")
+                    .setContentTitle(message)
                     .setContentText(message)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
-// notificationId is a unique int for each notification that you must define
-            notificationManager.notify(NotificationID.getID(), builder.build());
-        }
-    }
-
-    public static class NotificationID {
-        private final static AtomicInteger c = new AtomicInteger(0);
-        static int getID() {
-            return c.incrementAndGet();
+            notificationManager.notify(id, builder.build());
         }
     }
 
@@ -58,7 +62,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
-            errorToast(context, "Magic in progress...");
+            //errorToast(context, "Magic in progress...");
         }
     }
 

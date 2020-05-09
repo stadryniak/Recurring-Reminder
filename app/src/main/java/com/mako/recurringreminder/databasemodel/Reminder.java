@@ -50,7 +50,7 @@ class Reminder {
         return startMinute;
     }
 
-    int getIntervalDays() {
+    public int getIntervalDays() {
         return intervalDays;
     }
 
@@ -60,7 +60,7 @@ class Reminder {
         this.intervalDays = days;
     }
 
-    int getIntervalHours() {
+    public int getIntervalHours() {
         return intervalHours;
     }
 

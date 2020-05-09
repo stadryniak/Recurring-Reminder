@@ -18,11 +18,15 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
     class ReminderViewHolder extends RecyclerView.ViewHolder {
         private final TextView reminderItemMessage;
         private final TextView itemMinutes;
+        private final TextView itemHours;
+        private final TextView itemDays;
 
         private ReminderViewHolder(View itemView) {
             super(itemView);
             reminderItemMessage = itemView.findViewById(R.id.message);
             itemMinutes = itemView.findViewById(R.id.minutes);
+            itemHours = itemView.findViewById(R.id.hours);
+            itemDays = itemView.findViewById(R.id.days);
         }
     }
 
@@ -46,7 +50,8 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
             Reminder current = mReminders.get(position);
             holder.reminderItemMessage.setText(current.getMessage());
             holder.itemMinutes.setText(String.valueOf(current.getIntervalMinutes()));
-            //holder.ReminderItemView.setText(current.getWord());
+            holder.itemHours.setText(String.valueOf(current.getIntervalHours()));
+            holder.itemDays.setText(String.valueOf(current.getIntervalDays()));
         }
     }
 

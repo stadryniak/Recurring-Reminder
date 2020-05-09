@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.mako.recurringreminder.databasemodel.Reminder;
 
@@ -19,9 +20,11 @@ class ReminderNotificationManager {
     ReminderNotificationManager(Context context, Reminder reminder) {
         if (reminder == null || context == null) throw new NullPointerException();
         Intent intent = new Intent(context, AlarmReceiver.class);
+        //Toast toast = Toast.makeText(context, String.valueOf(reminder.id), Toast.LENGTH_LONG);
+        //toast.show();
         intent.putExtra("message", reminder.getMessage());
         intent.putExtra("id", reminder.id);
-        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmIntent = PendingIntent.getBroadcast(context, reminder.id, intent, 0);
         alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         this.reminder = reminder;
         if(alarmMgr == null || alarmIntent==null) throw new NullPointerException("Error getting alarm manager or pending intent");

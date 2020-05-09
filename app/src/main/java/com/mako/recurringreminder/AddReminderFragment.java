@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +105,13 @@ public class AddReminderFragment extends Fragment {
             return;
         }
         Reminder reminder = new Reminder(this.startHour, this.startMinute, this.intervalDay, this.intervalHour, this.intervalMinute, message);
-        mReminderViewModel.insert(reminder);
+        reminder.id = mReminderViewModel.insert(reminder);
+        if (reminder.id == -1) {
+            Toast toast = Toast.makeText(getContext(), "exception", Toast.LENGTH_LONG);
+            toast.show();
+            Log.d("ReminderDb", "exception while asking db for id");
+            return;
+        }
         // set reminder notification
         ReminderNotificationManager notificationManager = new ReminderNotificationManager(getContext(), reminder);
         notificationManager.setRepeatingNotification();

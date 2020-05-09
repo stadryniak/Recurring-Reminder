@@ -3,9 +3,15 @@ package com.mako.recurringreminder.databasemodel;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
+import java.sql.Time;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ReminderRepository {
     private ReminderDao mReminderDao;
@@ -29,7 +35,14 @@ public class ReminderRepository {
 
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
-    public void insert(Reminder reminder) {
-        ReminderDatabase.databaseWriteExecutor.execute(() -> mReminderDao.insertAll(reminder));
+    public int insert(Reminder reminder) {
+        int id;
+        try {
+            Future<Long> promise = ReminderDatabase.databaseWriteExecutor.submit(() -> mReminderDao.insert(reminder));
+            id = (int) promise.get().longValue();
+        } catch (Exception e) {
+            return -1;
+        }
+        return id;
     }
 }

@@ -13,9 +13,8 @@ import java.util.concurrent.Executors;
 public abstract class ReminderDatabase extends RoomDatabase {
     public abstract ReminderDao reminderDao();
     private static volatile ReminderDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+            Executors.newSingleThreadExecutor();
 
     static ReminderDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {

@@ -15,5 +15,8 @@
     <string name="addToDbButton">Add</string>
     <string name="channel_name">ReminderNotificationChannel</string>
     <string name="channel_description">channel for reminders notifications</string>
-    <string name="minutes">-1</string>
+    <string name="valuePlaceholder">-1</string>
+    <string name="intervalMinutesText">Minutes</string>
+    <string name="intervalHoursText">Hours</string>
+    <string name="intervalDaysText">Days</string>
 </resources>

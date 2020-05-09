@@ -22,10 +22,10 @@ public interface ReminderDao {
     Reminder findByMessage(String message);
 
     @Update
-    void updateAll(Reminder... reminders);
+    void updateAll(Reminder[] reminders);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertAll(Reminder... reminders);
+    long insert(Reminder reminders);
 
     @Delete
     void delete(Reminder reminder);
