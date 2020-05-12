@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.add_floating_button);
         fab.setOnClickListener(this::switchToOtherFragment);
        // mReminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
-        mReminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
+        mReminderViewModel = new ViewModelProvider(this, new ReminderViewModelFactory(this.getApplication())).get(ReminderViewModel.class);
         mReminderViewModel.setLiveData(getApplication());
     }
 

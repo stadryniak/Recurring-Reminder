@@ -84,7 +84,7 @@ public class AddReminderFragment extends Fragment {
         Button addButton = view.findViewById(R.id.addToDbButton);
         addButton.setOnClickListener(this::addToDb);
 
-        mReminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
+        mReminderViewModel = new ViewModelProvider(this, new ReminderViewModelFactory(Objects.requireNonNull(getActivity()).getApplication())).get(ReminderViewModel.class);
         mReminderViewModel.setLiveData(Objects.requireNonNull(getActivity()).getApplication());
         return view;
     }
@@ -106,12 +106,6 @@ public class AddReminderFragment extends Fragment {
         }
         Reminder reminder = new Reminder(this.startHour, this.startMinute, this.intervalDay, this.intervalHour, this.intervalMinute, message);
         reminder.id = mReminderViewModel.insert(reminder);
-        if (reminder.id == -1) {
-            Toast toast = Toast.makeText(getContext(), "exception", Toast.LENGTH_LONG);
-            toast.show();
-            Log.d("ReminderDb", "exception while asking db for id");
-            return;
-        }
         // set reminder notification
         ReminderNotificationManager notificationManager = new ReminderNotificationManager(getContext(), reminder);
         notificationManager.setRepeatingNotification();

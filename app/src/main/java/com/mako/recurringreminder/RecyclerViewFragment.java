@@ -51,10 +51,11 @@ public class RecyclerViewFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mReminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
+        mReminderViewModel = new ViewModelProvider(this, new ReminderViewModelFactory(Objects.requireNonNull(getActivity()).getApplication())).get(ReminderViewModel.class);
         mReminderViewModel.setLiveData(Objects.requireNonNull(getActivity()).getApplication());
         // Update the cached copy of the words in the adapter.
-        mReminderViewModel.getAllReminders().observe(this, adapter::setWords);
+        mReminderViewModel.getAllReminders().observe(this, adapter::setReminders);
+        adapter.setViewModel(mReminderViewModel);
         return view;
     }
 }

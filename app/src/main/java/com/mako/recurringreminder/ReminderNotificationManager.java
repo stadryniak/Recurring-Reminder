@@ -35,7 +35,7 @@ class ReminderNotificationManager {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, reminder.getStartHour());
         calendar.set(Calendar.MINUTE, reminder.getStartMinute());
-        alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), reminder.getMilisec(), alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), reminder.getMilisec(), alarmIntent);
     }
 
     void deleteRepeatingNotification(){

@@ -41,7 +41,18 @@ public class ReminderRepository {
             Future<Long> promise = ReminderDatabase.databaseWriteExecutor.submit(() -> mReminderDao.insert(reminder));
             id = (int) promise.get().longValue();
         } catch (Exception e) {
-            return -1;
+            throw new RuntimeException("Insert fail");
+        }
+        return id;
+    }
+
+    public int delete(Reminder reminder) {
+        int id;
+        try {
+            Future<Integer> promise = ReminderDatabase.databaseWriteExecutor.submit(() -> mReminderDao.delete(reminder));
+            id = promise.get();
+        } catch (Exception e) {
+            throw new RuntimeException("Delete fail");
         }
         return id;
     }

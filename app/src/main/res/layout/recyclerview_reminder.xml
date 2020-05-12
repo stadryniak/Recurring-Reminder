@@ -11,9 +11,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="62dp">
+            android:layout_height="wrap_content">
 
-
+            <!--
             <Button
                 android:id="@+id/editButton"
                 android:layout_width="wrap_content"
@@ -24,29 +24,29 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            -->
 
             <Button
                 android:id="@+id/deleteButton"
                 android:layout_width="66dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="8dp"
+                android:background="@color/red"
                 android:text="@string/delete"
                 android:textSize="12sp"
-                android:background="@color/red"
-                app:layout_constraintBottom_toBottomOf="@+id/editButton"
-                app:layout_constraintEnd_toStartOf="@+id/editButton"
-                app:layout_constraintTop_toTopOf="@+id/editButton" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:text="@string/messageText"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/minutes"
-                app:layout_constraintEnd_toStartOf="@+id/deleteButton"
-                app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.727" />
@@ -73,10 +73,9 @@
                 android:id="@+id/hoursText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="@string/intervalHoursText"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="@+id/message" />
 
             <TextView
                 android:id="@+id/hours"

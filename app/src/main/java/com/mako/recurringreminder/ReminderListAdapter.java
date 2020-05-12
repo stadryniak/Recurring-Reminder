@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
         private final TextView itemMinutes;
         private final TextView itemHours;
         private final TextView itemDays;
+        private final Button itemDelete;
 
         private ReminderViewHolder(View itemView) {
             super(itemView);
@@ -27,14 +29,20 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
             itemMinutes = itemView.findViewById(R.id.minutes);
             itemHours = itemView.findViewById(R.id.hours);
             itemDays = itemView.findViewById(R.id.days);
+            itemDelete = itemView.findViewById(R.id.deleteButton);
         }
     }
 
     private final LayoutInflater mInflater;
     private List<Reminder> mReminders; // Cached copy of words
+    private ReminderViewModel mViewModel;
 
     ReminderListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
+    }
+
+    void setViewModel(ReminderViewModel viewModel) {
+        mViewModel = viewModel;
     }
 
     @NonNull
@@ -52,11 +60,13 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
             holder.itemMinutes.setText(String.valueOf(current.getIntervalMinutes()));
             holder.itemHours.setText(String.valueOf(current.getIntervalHours()));
             holder.itemDays.setText(String.valueOf(current.getIntervalDays()));
+            //set delete button
+            holder.itemDelete.setOnClickListener(v -> mViewModel.delete(mReminders.get(position)));
         }
     }
 
-    void setWords(List<Reminder> words) {
-        mReminders = words;
+    void setReminders(List<Reminder> reminders) {
+        mReminders = reminders;
         notifyDataSetChanged();
     }
 

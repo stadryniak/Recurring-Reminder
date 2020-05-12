@@ -1,6 +1,7 @@
 package com.mako.recurringreminder;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,12 +18,16 @@ import com.mako.recurringreminder.databasemodel.ReminderRepository;
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess") // less accessible than public breaks UI
-public class ReminderViewModel extends ViewModel {
+public class ReminderViewModel extends AndroidViewModel {
     private ReminderRepository mRepository;
     private LiveData<List<Reminder>> mAllReminders;
 
+    public ReminderViewModel(@NonNull Application application) {
+        super(application);
+    }
+
     void setLiveData(Application application) {
-        if(mRepository!=null) return;
+        if (mRepository != null) return;
         mRepository = new ReminderRepository(application);
         mAllReminders = mRepository.getAllReminders();
     }
@@ -32,14 +37,13 @@ public class ReminderViewModel extends ViewModel {
     }
 
     int insert(Reminder reminder) {
-        int id;
-        try{
-            id = mRepository.insert(reminder);
-        }
-        catch (Exception e){
-            Log.d("ReminderDbError", "Interrupted");
-            return -1;
-        }
-        return id;
+        return mRepository.insert(reminder);
+    }
+
+    int delete(Reminder reminder) {
+        ReminderNotificationManager notificationManager = new ReminderNotificationManager(this.getApplication(), reminder);
+        notificationManager.deleteRepeatingNotification();
+        return mRepository.delete(reminder);
     }
 }
+

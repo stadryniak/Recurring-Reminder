@@ -28,5 +28,5 @@ public interface ReminderDao {
     long insert(Reminder reminders);
 
     @Delete
-    void delete(Reminder reminder);
+    int delete(Reminder reminder);
 }
