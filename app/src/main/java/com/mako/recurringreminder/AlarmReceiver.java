@@ -17,6 +17,7 @@ import com.mako.recurringreminder.databasemodel.Reminder;
 import com.mako.recurringreminder.databasemodel.ReminderDatabase;
 import com.mako.recurringreminder.databasemodel.ReminderRepository;
 
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,17 +31,27 @@ public class AlarmReceiver extends BroadcastReceiver {
             return;
         }
         createNotificationChannel(context);
-        if (intent.hasExtra("message") && intent.hasExtra("id")) {
+        if (intent.hasExtra("message") &&
+                intent.hasExtra("id") &&
+                intent.hasExtra("minutes") &&
+                intent.hasExtra("hours") &&
+                intent.hasExtra("days")) {
             int id = intent.getIntExtra("id", -1);
             if (id == -1) {
                 errorToast(context, "Error getting id");
                 return;
             }
+
+            String contentText = String.format(Locale.getDefault(), "Interval: %d days, %d hours, %d minutes",
+                    intent.getIntExtra("days", 0),
+                    intent.getIntExtra("hours", 0),
+                    intent.getIntExtra("minutes", 0));
+
             String message = intent.getStringExtra("message");
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .setContentTitle(message)
-                    .setContentText(message)
+                    .setContentText(contentText)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 

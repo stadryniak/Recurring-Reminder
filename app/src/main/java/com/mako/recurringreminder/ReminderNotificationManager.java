@@ -24,10 +24,15 @@ class ReminderNotificationManager {
         //toast.show();
         intent.putExtra("message", reminder.getMessage());
         intent.putExtra("id", reminder.id);
+        intent.putExtra("minutes", reminder.getIntervalMinutes());
+        intent.putExtra("hours", reminder.getIntervalHours());
+        intent.putExtra("days", reminder.getIntervalDays());
+
         alarmIntent = PendingIntent.getBroadcast(context, reminder.id, intent, 0);
         alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         this.reminder = reminder;
-        if(alarmMgr == null || alarmIntent==null) throw new NullPointerException("Error getting alarm manager or pending intent");
+        if (alarmMgr == null || alarmIntent == null)
+            throw new NullPointerException("Error getting alarm manager or pending intent");
     }
 
     void setRepeatingNotification() {
@@ -38,7 +43,7 @@ class ReminderNotificationManager {
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), reminder.getMilisec(), alarmIntent);
     }
 
-    void deleteRepeatingNotification(){
+    void deleteRepeatingNotification() {
         alarmMgr.cancel(alarmIntent);
     }
 
