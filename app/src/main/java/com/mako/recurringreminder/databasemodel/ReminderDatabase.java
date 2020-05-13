@@ -13,10 +13,10 @@ import java.util.concurrent.Executors;
 public abstract class ReminderDatabase extends RoomDatabase {
     public abstract ReminderDao reminderDao();
     private static volatile ReminderDatabase INSTANCE;
-    static final ExecutorService databaseWriteExecutor =
+    public static final ExecutorService databaseWriteExecutor =
             Executors.newSingleThreadExecutor();
 
-    static ReminderDatabase getDatabase(final Context context) {
+    public static ReminderDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReminderDatabase.class) {
                 if (INSTANCE == null) {

@@ -17,6 +17,7 @@ public class ReminderViewModelFactory implements ViewModelProvider.Factory {
 
     @NonNull
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         //noinspection unchecked
         return (T) new ReminderViewModel(mApplication);

@@ -15,8 +15,8 @@ public interface ReminderDao {
     @Query("SELECT * FROM reminder_table ORDER BY id ASC")
     LiveData<List<Reminder>> getAll();
 
-    @Query("SELECT * FROM reminder_table WHERE id IN (:reminderIds)")
-    List<Reminder> loadAllByIds(int[] reminderIds);
+    @Query("SELECT * FROM reminder_table")
+    List<Reminder> getAllNoLiveData();
 
     @Query("SELECT * FROM reminder_table WHERE message LIKE :message LIMIT 1")
     Reminder findByMessage(String message);

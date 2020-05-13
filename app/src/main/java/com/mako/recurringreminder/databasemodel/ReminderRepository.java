@@ -1,6 +1,7 @@
 package com.mako.recurringreminder.databasemodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -21,8 +22,8 @@ public class ReminderRepository {
     // dependency. This adds complexity and much more code, and this sample is not about testing.
     // See the BasicSample in the android-architecture-components repository at
     // https://github.com/googlesamples
-    public ReminderRepository(Application application) {
-        ReminderDatabase db = ReminderDatabase.getDatabase(application);
+    public ReminderRepository(Context context) {
+        ReminderDatabase db = ReminderDatabase.getDatabase(context);
         mReminderDao = db.reminderDao();
         mAllReminders = mReminderDao.getAll();
     }
