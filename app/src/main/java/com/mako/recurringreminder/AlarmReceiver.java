@@ -56,7 +56,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .setContentTitle(message)
                     .setContentText(contentText)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setCategory(NotificationCompat.CATEGORY_ALARM);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
             notificationManager.notify(id, builder.build());
