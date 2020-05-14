@@ -35,11 +35,12 @@ class ReminderNotificationManager {
             throw new NullPointerException("Error getting alarm manager or pending intent");
     }
 
-    void setRepeatingNotification() {
+    void setRepeatingNotification(boolean startToday) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, reminder.getStartHour());
         calendar.set(Calendar.MINUTE, reminder.getStartMinute());
+        if(!startToday) calendar.add(Calendar.DATE, 1);
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), reminder.getMilisec(), alarmIntent);
     }
 

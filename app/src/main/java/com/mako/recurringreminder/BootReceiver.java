@@ -25,7 +25,7 @@ public class BootReceiver extends BroadcastReceiver {
                 List<Reminder> reminders = promise.get();
                 for(Reminder re : reminders){
                     ReminderNotificationManager notificationManager = new ReminderNotificationManager(context, re);
-                    notificationManager.setRepeatingNotification();
+                    notificationManager.setRepeatingNotification(true);
                 }
             } catch (Exception e) {
                 Log.d("RecurringReminder", "Db access on boot failed");

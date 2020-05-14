@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class AddReminderFragment extends Fragment {
     private int intervalDay;
     private int intervalHour;
     private int intervalMinute;
+
+    private boolean startToday = false;
 
     private int TIME_PICKER_DIALOG_REQUEST_CODE = 71;
     private int NUMBER_PICKER_DIALOG_REQUEST_CODE = 75;
@@ -81,6 +84,9 @@ public class AddReminderFragment extends Fragment {
         intervalText = view.findViewById(R.id.currentMinutes);
         intervalText.setOnClickListener(v -> showNumberPickerDialog(v, 2));
 
+        CheckBox startTodayCheckbox = view.findViewById(R.id.startTodayCheckbox);
+        startTodayCheckbox.setOnClickListener(this::onCheckboxClicked);
+
         Button addButton = view.findViewById(R.id.addToDbButton);
         addButton.setOnClickListener(this::addToDb);
 
@@ -108,7 +114,7 @@ public class AddReminderFragment extends Fragment {
         reminder.id = mReminderViewModel.insert(reminder);
         // set reminder notification
         ReminderNotificationManager notificationManager = new ReminderNotificationManager(getContext(), reminder);
-        notificationManager.setRepeatingNotification();
+        notificationManager.setRepeatingNotification(this.startToday);
 
         goBack();
     }
@@ -188,4 +194,7 @@ public class AddReminderFragment extends Fragment {
         }
     }
 
+    private void onCheckboxClicked(View v) {
+        this.startToday = ((CheckBox) v).isChecked();
+    }
 }

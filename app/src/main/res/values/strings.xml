@@ -19,4 +19,5 @@
     <string name="intervalMinutesText">Minutes</string>
     <string name="intervalHoursText">Hours</string>
     <string name="intervalDaysText">Days</string>
+    <string name="startTodayCheckbox">start today</string>
 </resources>

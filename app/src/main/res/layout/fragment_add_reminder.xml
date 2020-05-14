@@ -39,10 +39,11 @@
             android:id="@+id/intervalText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:text="@string/intervalText"
             android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.482"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currentStartTime" />
 
@@ -144,6 +145,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/messageInput" />
+
+        <CheckBox
+            android:id="@+id/startTodayCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:checked="false"
+            android:text="@string/startTodayCheckbox"
+            app:layout_constraintBottom_toBottomOf="@+id/currentStartTime"
+            app:layout_constraintStart_toEndOf="@+id/currentStartTime"
+            app:layout_constraintTop_toTopOf="@+id/currentStartTime" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
